@@ -5,7 +5,8 @@
 
 body {
     margin: 30px 10%;
-    font-family: "Inter", serif
+    font-family: "Inter", serif;
+    background color: white;
 }
 
 h1 {
