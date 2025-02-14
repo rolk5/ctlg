@@ -1,42 +1,67 @@
-const myList = document.querySelector("div");
 
-fetch('https://script.googleusercontent.com/macros/echo?user_content_key=e8RH5XRh5pMduNn5YeU_AjJfy2YNUCzdw3FAjYFchTtv5lSXLsg_qUF_rXGj1P19rJF-oU8EIO8_grqv8iLa6-seF2KXSTqHm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnPAA2y3VG9JL81ZNanfkRoRM1TRpNg5VgNchTapj0eLsNmUatjGXwvNYTINa6Bd7jMjkfAoyZeN7HHAcHOJxqh3IbVrF9IR6-w&lib=MvIYJgZ0MgXa3kditUeoakMBHEyKE_rmM')
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error, status = ${response.status}`);
+        // URL для загрузки данных (замените на реальный)
+const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=tuQdiLD1YG42imxTO7r9hYD0y3L6GsSiKcOwLZs75Nd5nGl-gPFPzGn7HcUv4SK7TMQOzHXM8BauLQIepIc4fR-pQmHWmXjpm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnPAA2y3VG9JL81ZNanfkRoRM1TRpNg5VgNchTapj0eLsNmUatjGXwvNYTINa6Bd7jMjkfAoyZeN7HHAcHOJxqh3IbVrF9IR6-w&lib=MvIYJgZ0MgXa3kditUeoakMBHEyKE_rmM';
+
+    // Функция группировки данных (без изменений)
+    function groupData(data) {
+            return data.reduce((acc, item) => {
+                if (!acc[item.Тип]) acc[item.Тип] = { };
+                if (!acc[item.Тип][item.Группа]) acc[item.Тип][item.Группа] = [];
+                acc[item.Тип][item.Группа].push(item.Название);
+    return acc;
+
+            }, { });
         }
-        return response.json();
-    })
-    .then((data) => {
 
-        //Список товаров
-        for (const product of data.users) {
-            
-            //Создаем тип элемента
-            const productList = document.createElement("div");
-            productList.className = "catalogCard1";
+    // Функция отрисовки (без изменений)
+    function renderData(groupedData) {
+            const container = document.getElementById('data-container');
 
+    for (const [className, types] of Object.entries(groupedData)) {
+                const classDiv = document.createElement('div');
+    classDiv.className = 'category';
 
-            //Создаем название элемента
-            const nameEl = document.createElement("p2");
-            nameEl.textContent = product.Название;
-            nameEl.className = "nameObj";
+    const classHeader = document.createElement('h2');
+    classHeader.className = 'category-header';
+    classHeader.textContent = className;
+    classDiv.appendChild(classHeader);
 
-            
+    for (const [typeName, items] of Object.entries(types)) {
+                    const typeDiv = document.createElement('div');
+    typeDiv.className = 'type-section';
 
-            //Создаем элемент цены с сиволом ₽
-            const priceElement = document.createElement("p3");
-            priceElement.textContent = `${product.РУБ1}₽`;
+    const typeHeader = document.createElement('h3');
+    typeHeader.className = 'type-header';
+    typeHeader.textContent = typeName;
+    typeDiv.appendChild(typeHeader);
 
-            productList.append(
-                nameEl,
-                priceElement,` за ${product.шт1} шт`,
-            );
-            myList.appendChild(productList);
+                    items.forEach(itemName => {
+                        const itemDiv = document.createElement('div');
+    itemDiv.className = 'item';
+    itemDiv.textContent = itemName;
+    typeDiv.appendChild(itemDiv);
+                    });
+
+    classDiv.appendChild(typeDiv);
+                }
+
+    container.appendChild(classDiv);
+            }
         }
-    })
-    .catch((error) => {
-        const p = document.createElement("p1");
-        p.appendChild(document.createTextNode(`Error: ${error.message}`));
-        document.body.insertBefore(p, myList);
-    });
+
+    // Загрузка данных при старте
+    window.onload = function() {
+        fetch(DATA_URL)
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка сети');
+                return response.json();
+            })
+            .then(data => {
+                const groupedData = groupData(data.users);
+                renderData(groupedData);
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки данных:', error);
+                newElement.innerHTML = '<p>Ошибка загрузки данных</p>';
+                });
+        };
