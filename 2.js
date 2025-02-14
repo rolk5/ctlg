@@ -1,8 +1,7 @@
 
-        // URL для загрузки данных (замените на реальный)
 const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=tuQdiLD1YG42imxTO7r9hYD0y3L6GsSiKcOwLZs75Nd5nGl-gPFPzGn7HcUv4SK7TMQOzHXM8BauLQIepIc4fR-pQmHWmXjpm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnPAA2y3VG9JL81ZNanfkRoRM1TRpNg5VgNchTapj0eLsNmUatjGXwvNYTINa6Bd7jMjkfAoyZeN7HHAcHOJxqh3IbVrF9IR6-w&lib=MvIYJgZ0MgXa3kditUeoakMBHEyKE_rmM';
 
-    // Функция группировки данных (без изменений)
+    // Функция группировки данных
     function groupData(data) {
             return data.reduce((acc, item) => {
                 if (!acc[item.Тип]) acc[item.Тип] = { };
