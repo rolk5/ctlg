@@ -1,5 +1,5 @@
 
-const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=tuQdiLD1YG42imxTO7r9hYD0y3L6GsSiKcOwLZs75Nd5nGl-gPFPzGn7HcUv4SK7TMQOzHXM8BauLQIepIc4fR-pQmHWmXjpm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnPAA2y3VG9JL81ZNanfkRoRM1TRpNg5VgNchTapj0eLsNmUatjGXwvNYTINa6Bd7jMjkfAoyZeN7HHAcHOJxqh3IbVrF9IR6-w&lib=MvIYJgZ0MgXa3kditUeoakMBHEyKE_rmM';
+const DATA_URL = '1.json';
 
     // Функция группировки данных
     function groupData(data) {
@@ -16,9 +16,12 @@ const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_
     function renderData(groupedData) {
             const container = document.getElementById('data-container');
 
+
+    // Создаем div с class = "category"
     for (const [className, types] of Object.entries(groupedData)) {
                 const classDiv = document.createElement('div');
     classDiv.className = 'category';
+
 
     const classHeader = document.createElement('h2');
     classHeader.className = 'category-header';
@@ -28,6 +31,7 @@ const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_
     for (const [typeName, items] of Object.entries(types)) {
                     const typeDiv = document.createElement('div');
     typeDiv.className = 'type-section';
+
 
     const typeHeader = document.createElement('h3');
     typeHeader.className = 'type-header';
