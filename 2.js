@@ -13,44 +13,45 @@ const DATA_URL = 'https://script.googleusercontent.com/macros/echo?user_content_
         }
 
     // Функция отрисовки (без изменений)
-    function renderData(groupedData) {
-            const container = document.getElementById('data-container');
+function renderData(groupedData) {
+    const container = document.getElementById('data-container');
 
 
-    // Создаем div с class = "category"
+    // Создаем раскрывающийся список с class = "category"
     for (const [className, types] of Object.entries(groupedData)) {
-                const classDiv = document.createElement('div');
-    classDiv.className = 'category';
+        const classDiv = document.createElement('details');
+        classDiv.className = 'category';
 
+        //Заголовок Типа (Овощи/Цветы)
+        const classHeader = document.createElement('summary');
+        classHeader.className = 'category-header';
+        classHeader.textContent = className;
+        classDiv.appendChild(classHeader);
 
-    const classHeader = document.createElement('h2');
-    classHeader.className = 'category-header';
-    classHeader.textContent = className;
-    classDiv.appendChild(classHeader);
+        // Создаем раскрывающийся список с class = "type-section"
+        for (const [typeName, items] of Object.entries(types)) {
+            const typeDiv = document.createElement('details');
+            typeDiv.className = 'type-section';
 
-    for (const [typeName, items] of Object.entries(types)) {
-                    const typeDiv = document.createElement('div');
-    typeDiv.className = 'type-section';
+            //Заголовок группы (Арбуз/Огурцы)
+            const typeHeader = document.createElement('summary');
+            typeHeader.className = 'type-header';
+            typeHeader.textContent = typeName;
+            typeDiv.appendChild(typeHeader);
 
+            items.forEach(itemName => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.textContent = itemName;
+                typeDiv.appendChild(itemDiv);
+            });
 
-    const typeHeader = document.createElement('h3');
-    typeHeader.className = 'type-header';
-    typeHeader.textContent = typeName;
-    typeDiv.appendChild(typeHeader);
-
-                    items.forEach(itemName => {
-                        const itemDiv = document.createElement('div');
-    itemDiv.className = 'item';
-    itemDiv.textContent = itemName;
-    typeDiv.appendChild(itemDiv);
-                    });
-
-    classDiv.appendChild(typeDiv);
-                }
-
-    container.appendChild(classDiv);
-            }
+            classDiv.appendChild(typeDiv);
         }
+
+        container.appendChild(classDiv);
+    }
+}
 
     // Загрузка данных при старте
     window.onload = function() {
